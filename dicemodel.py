@@ -4,6 +4,7 @@
 
 import os
 import random
+import glob
 
 class DiceModel(object):
     
@@ -59,16 +60,40 @@ class DiceModel(object):
         """temporary print no view yet"""
         print self.name, self.faces
     
+class AllDices(object):
     
+    def __init__(self, dpath):
+        self.dicespath = dpath
+        self.ldices = []
+        self.load(self.dicespath)
+    
+    def load(self, path):
+        flist = glob.glob(os.path.join(self.dicespath, "*"))
+        for dicefile in flist:
+            self.ldices.append((DiceModel(dicefile).name, dicefile))
+    
+    def clean(self):
+        self.ldices = []
+    
+    def get_file_from_name(self, name):
+        for (dname, dfile) in self.ldices:
+            if name == dname:
+                return dfile
+        raise Exception("No dice named %s\n"%(name))
+
+#to do combinaison
 
 if __name__ == "__main__":
     """temporary test"""
     print "main"
-    DM = DiceModel(os.path.join(".", "dices", "six"))
-    DM.print_dice()
-    print DM.roll()
-    DM.add_face("42")
-    DM.del_face("6")
-    DM.change_name("4DICE2")
-    DM.print_dice()
-    DM.save_dice(os.path.join(".","dices","42"))
+    AD = AllDices(os.path.join(".", "dices"))
+    print AD.get_file_from_name("SIX")
+    #~ print AD.rolls(["SIX", "lose"])
+    #~ DM = DiceModel(os.path.join(".", "dices", "six"))
+    #~ DM.print_dice()
+    #~ print DM.roll()
+    #~ DM.add_face("42")
+    #~ DM.del_face("6")
+    #~ DM.change_name("4DICE2")
+    #~ DM.print_dice()
+    #~ DM.save_dice(os.path.join(".","dices","42"))
