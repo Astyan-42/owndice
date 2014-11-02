@@ -3,6 +3,7 @@
 """Dice Model"""
 
 import os
+import sys
 import random
 import glob
 
@@ -39,10 +40,8 @@ class DiceModel(object):
     def save_dice(self, path = None):
         if self.name == "":
             raise Exception("A dice need a name")
-            exit(2)
         if len(self.faces) < 2:
             raise Exception("A dice need at least 2 faces")
-            exit(3)
         if path == None:
             path = self._filepath
         try:
@@ -67,8 +66,11 @@ class AllDices(object):
         self.ldices = []
         self.load(self.dicespath)
     
-    def load(self, path):
-        flist = glob.glob(os.path.join(self.dicespath, "*"))
+    def load(self, path = None):
+        if path == None:
+            flist = glob.glob(os.path.join(self.dicespath, "*"))
+        else:
+            flist = glob.glob(os.path.join(path, "*"))
         for dicefile in flist:
             self.ldices.append((DiceModel(dicefile).name, dicefile))
     
