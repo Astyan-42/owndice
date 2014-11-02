@@ -1,7 +1,7 @@
 exe:
 	python dicemodel.py
 doc:
-	epydoc --html -o doc -name OWNDICE *.py
+	epydoc --html --name "OWNDICE" -v -o doc *.py
 pylint:
 	pylint dicemodel.py
 test:
