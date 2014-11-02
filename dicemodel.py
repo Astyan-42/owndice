@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
 """@summary: Dice Model
-@@author: Vezin Aurelien A.K.A Astyan
-@@license: lgpl"""
+@author: Vezin Aurelien A.K.A Astyan
+@license: lgpl"""
 
 
 import os
