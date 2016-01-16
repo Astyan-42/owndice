@@ -1,0 +1,20 @@
+#:kivy 1.9.0
+
+
+<MenuScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        spacing: 10
+        Button:
+            text: 'Play'
+            font_size: '18sp'
+            on_press: root.manager.current = 'play'
+        Button:
+            text: 'Create Dice'
+            font_size: '18sp'
+            on_press: root.manager.current = 'createdice'
+        Button:
+            text: 'Create Dices Set'
+            font_size: '18sp'
+            on_press: root.manager.current = 'createdicesset'
