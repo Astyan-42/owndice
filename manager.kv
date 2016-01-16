@@ -1,5 +1,10 @@
 #:kivy 1.9.0
 
+<DicesScreen>:
+    fullscreen: True
+    BoxLayout:
+        orientation: 'vertical'
+        
 
 <MenuScreen>:
     BoxLayout:
@@ -11,10 +16,10 @@
             font_size: '18sp'
             on_press: root.manager.current = 'play'
         Button:
-            text: 'Create Dice'
+            text: 'Dices'
             font_size: '18sp'
-            on_press: root.manager.current = 'createdice'
+            on_press: root.manager.current = 'dices'
         Button:
-            text: 'Create Dices Set'
+            text: 'Dices Sets'
             font_size: '18sp'
-            on_press: root.manager.current = 'createdicesset'
+            on_press: root.manager.current = 'dicessets'

@@ -4,19 +4,24 @@ kivy.require('1.9.0')
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
+from kivy.uix.popup import Popup
 
 
-class CreateDiceScreen(Screen):
+class DicesScreen(Screen):
     """ The creation of the dice """
     pass
     
-class CreateDicesSetScreen(Screen):
+class DicesSetsScreen(Screen):
     """ The creation of a dice Set """
     pass
 
 class PlayDiceSet(Screen):
     """ Play a dice set"""
     pass
+
+class DicesSetResultPopup(Popup):
+    """ show a DiceSetResult """
+    pass 
     
 class MenuScreen(Screen):
     """ the menu screen"""
@@ -32,8 +37,8 @@ class ManagerApp(App):
         self.sm = ScreenManager()
         self.sm.add_widget(MenuScreen(name='menu'))
         self.sm.add_widget(PlayDiceSet(name='play'))
-        self.sm.add_widget(CreateDiceScreen(name='createdice'))
-        self.sm.add_widget(CreateDicesSetScreen(name='createdicesset'))
+        self.sm.add_widget(DicesScreen(name='dices'))
+        self.sm.add_widget(DicesSetsScreen(name='dicessets'))
         self.bind(on_start=self.post_build_init)
         return self.sm
 
