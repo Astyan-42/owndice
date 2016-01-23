@@ -4,6 +4,32 @@
     fullscreen: True
     BoxLayout:
         orientation: 'vertical'
+        TopTitleLayout:
+            DiceLabelTitle:
+                text: "[color=ff3333]Dices[/color]"
+        ScrollViewSpe:
+            TopScreenLayout:
+                rows: 2
+                DiceLabel:
+                    text: "Dice Model"
+                DiceSpinner:
+					id: dice_model_spinner
+					on_text: root.changelabel()
+				DiceLabel:
+					text: "Change test"
+				DiceLabel:
+					id: change_label
+					text: "lol1"
+        DownMenuLayout:
+            DiceButton:
+				text: "New"
+				on_press: root.new_dice()
+			DiceButton:
+				text: "Edit"
+				on_press: root.edit_dice()
+            DiceButton:
+                text: "Menu"
+                on_press: root.manager.current = 'menu'
         
 
 <MenuScreen>:

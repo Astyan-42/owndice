@@ -5,11 +5,24 @@ from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
 from kivy.uix.popup import Popup
-
+from base import *
 
 class DicesScreen(Screen):
     """ The creation of the dice """
-    pass
+    
+    def on_pre_enter(self):
+        self.ids.dice_model_spinner.values = [ "lol1", "lol2" ]
+        self.ids.dice_model_spinner.text = "lol1"
+    
+    def changelabel(self):
+        self.ids.change_label.text = self.ids.dice_model_spinner.text
+    
+    def edit_dice(self):
+        pass
+    
+    def new_dice(self):
+        pass
+        
     
 class DicesSetsScreen(Screen):
     """ The creation of a dice Set """

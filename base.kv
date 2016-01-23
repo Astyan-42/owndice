@@ -1,0 +1,82 @@
+#:kivy 1.9.0
+#:import Factory kivy.factory.Factory
+
+
+<DiceButton>:
+    font_size: '15sp'
+    height: '30sp'
+
+<DiceLabel>:
+    font_size: '15sp'
+    height: '30sp'
+    width: '110sp'
+    text_size: self.width, None
+    markup: True
+
+<DiceTextInput>:
+    font_size: '15sp'
+    height: '30sp'
+    width: '60sp'
+    #centering the text
+    padding: [6,self.height/2-sp(13),6,self.height/2-sp(13)]
+
+<DiceSpinnerOption@SpinnerOption>:
+    font_size: '15sp'
+    text_size: self.width-10, self.height
+    halign: 'left'
+    valign: 'middle'
+
+<DiceSpinner>:
+    font_size: '15sp'
+    height: '30sp'
+    width: '30sp'
+    text_size: self.width-10, self.height
+    halign: 'left'
+    valign: 'middle'
+    option_cls: Factory.get("DiceSpinnerOption")
+    #magic to use if I want a almost fixed size
+    #size_hint_y: None
+
+<ScrollViewSpe>:
+    height: self.change_child_height(self.height)
+    width: self.change_child_width(self.width)
+    
+<DiceLayout>:
+    padding: 10
+    spacing: 10
+    
+<TopScreenLayout>:
+    size_hint_y: None
+    size_hint_x: None
+    minimum_height: '350sp'
+    minimum_width: '350sp'
+    cols: 2
+
+<TopPopupLayout>:
+    size_hint_y: None
+    size_hint_x: None
+    spacing: 40
+    minimum_height: '350sp'
+    minimum_width: '350sp'
+    cols: 2
+
+<DiceFixedLayout@DiceLayout>:
+    size_hint_y: None
+    height: '60sp'
+    
+<TopTitleLayout@DiceFixedLayout>:
+    cols: 1
+    height: '50sp'
+    spacing: 5
+    pading: 5
+
+<DiceLabelTitle@Label>:
+    font_size: '18sp'
+    height: '20sp'
+    text_size: self.width, self.height
+    halign: 'left'
+    valign: 'middle'
+    markup: True
+
+<DownMenuLayout@DiceFixedLayout>:
+    cols: 3
