@@ -38,7 +38,8 @@ class ScrollViewSpe(ScrollView):
     
     def change_child_height(self, height_par):
         for child in self.children:
-            child.change_height(height_par)
+            #temporary change for the size check if it all right
+            child.change_height(sp(120))
         return height_par
 
     def change_child_width(self, wid):
