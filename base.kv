@@ -38,12 +38,15 @@
     #size_hint_y: None
 
 <ScrollViewSpe>:
-    height: self.change_child_height(self.height)
+    #height: self.change_child_height(self.height)
     width: self.change_child_width(self.width)
     
 <DiceLayout>:
     padding: 10
     spacing: 10
+    rows: 1
+    height: self.nb_rows_height()
+    
     
 <TopScreenLayout>:
     size_hint_y: None

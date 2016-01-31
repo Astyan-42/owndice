@@ -38,8 +38,8 @@ class ScrollViewSpe(ScrollView):
     
     def change_child_height(self, height_par):
         for child in self.children:
-            #temporary change for the size check if it all right
-            child.change_height(sp(120))
+            #need to be move to update
+            child.change_height(sp(child.rows*50))
         return height_par
 
     def change_child_width(self, wid):
@@ -53,6 +53,9 @@ class DiceLayout(GridLayout):
     If the actual size of the parent is biger then get the biger size.
     /!\ The parent must be a ScrollViewSpe
     """
+    
+    def nb_rows_height(self):
+        return 50 * self.rows
     
     def set_min_height(self):
         self.minimum_height = sp(350)

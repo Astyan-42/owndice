@@ -26,6 +26,7 @@ class DicesScreen(Screen):
         self.delface = DiceButton(id="delface", text="Del Face", on_release=self.del_face)
         self.ids.inlayout.add_widget(self.addface)
         self.ids.inlayout.add_widget(self.delface)
+        self.ids.inlayout.height = self.ids.inlayout.nb_rows_height()
         
         
         #~ self.ids.dice_model_spinner.text = "default"
@@ -45,7 +46,6 @@ class DicesScreen(Screen):
         self.ids.inlayout.rows = self.ids.inlayout.default_rows + 1 + len(dices[self.ids.dice_model_spinner.text]["data"]["faces"])
         #create the faces
         for i in range(0, len(dices[self.ids.dice_model_spinner.text]["data"]["faces"])):
-            print "lol"
             labelid = "face" + str(i+1) +"label"
             labeltext = "Face "+str(i+1)
             nameid = "face" + str(i+1) +"name"
@@ -57,6 +57,7 @@ class DicesScreen(Screen):
             self.ids.inlayout.add_widget(facename)
         self.ids.inlayout.add_widget(self.addface)
         self.ids.inlayout.add_widget(self.delface)
+        self.ids.inlayout.height = self.ids.inlayout.nb_rows_height()
     
     def add_face(self, buttoninstance):
         pass
