@@ -9,17 +9,34 @@
                 text: "[color=ff3333]Dices[/color]"
         ScrollViewSpe:
             TopScreenLayout:
-                rows: 2
+				id: inlayout
+				default_rows: 5
+                rows: 6
                 DiceLabel:
                     text: "Dice Model"
                 DiceSpinner:
 					id: dice_model_spinner
-					on_text: root.changelabel()
+					text: "default"
+					on_text: root.change_dice()
 				DiceLabel:
-					text: "Change test"
+					text: "Dice Name"
+				DiceTextInput:
+					id: dice_name
+					text: "default"
 				DiceLabel:
-					id: change_label
-					text: "lol1"
+					text: "Dice Color"
+				DiceTextInput:
+					id: dice_color
+					text: "FFFFFF"
+				DiceLabel:
+					text: "Action"
+				DiceSpinner:
+					id: action
+					text: "Add"
+					values: ["Add", "Edit", "Delete"]
+				
+				
+				
         DownMenuLayout:
             DiceButton:
 				text: "New"
