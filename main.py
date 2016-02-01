@@ -13,31 +13,33 @@ class DicesScreen(Screen):
     """ The creation of the dice """
     
     def on_pre_enter(self):
-        print "lol"
-        dices = store.get_store("dices.pickle")
-        dicesnames = [ dicename for dicename in dices ]
-        if self.ids.dice_model_spinner.text == "default":
-            self.ids.dice_model_spinner.values = dicesnames
-            self.faces = []
-            face1label = DiceLabel(id="face1label", text="Face 1")
-            face1name = DiceTextInput(id="face1name", text="Face 1")
-            self.faces.append((face1label, face1name))
-            self.ids.inlayout.add_widget(face1label)
-            self.ids.inlayout.add_widget(face1name)
-        else:
-            for w1, w2 in self.faces:
-                self.ids.inlayout.add_widget(w1)
-                self.ids.inlayout.add_widget(w2)
+        self.dices = store.get_store("dices.pickle")
+        dicesnames = [ dicename for dicename in self.dices ] + ["default"]
+        self.ids.dice_model_spinner.values = dicesnames
         self.addface = DiceButton(id="addface", text="Add Face", on_release=self.add_face)
         self.delface = DiceButton(id="delface", text="Del Face", on_release=self.del_face)
+        if self.ids.dice_model_spinner.text == "default":
+            self.create_default()
+        else:
+            self.load_dice()
+    
+    def create_default(self):
+        self.ids.inlayout.rows = self.ids.inlayout.default_rows + 1 + 1
+        self.ids.dice_name.text = "default"
+        self.ids.dice_color.text = "FFFFFF"
+        self.faces = []
+        face1label = DiceLabel(id="face1label", text="Face 1")
+        face1name = DiceTextInput(id="face1name", text="Face 1")
+        self.faces.append((face1label, face1name))
+        self.ids.inlayout.add_widget(face1label)
+        self.ids.inlayout.add_widget(face1name)
         self.ids.inlayout.add_widget(self.addface)
         self.ids.inlayout.add_widget(self.delface)
         self.ids.inlayout.height = self.ids.inlayout.nb_rows_height()
         
+        
     def change_dice(self):
         dices = store.get_store("dices.pickle")
-        self.ids.dice_name.text = self.ids.dice_model_spinner.text
-        self.ids.dice_color.text = dices[self.ids.dice_model_spinner.text]["data"]["color"]
         #delete everything that belong to the other dice
         self.ids.inlayout.remove_widget(self.addface)
         self.ids.inlayout.remove_widget(self.delface)
@@ -46,13 +48,22 @@ class DicesScreen(Screen):
             self.ids.inlayout.remove_widget(fname)
         self.faces = []
         #set the number of rows
-        self.ids.inlayout.rows = self.ids.inlayout.default_rows + 1 + len(dices[self.ids.dice_model_spinner.text]["data"]["faces"])
+        if self.ids.dice_model_spinner.text == "default":
+            self.create_default()
+        else:
+            self.load_dice()
+    
+    
+    def load_dice(self): 
+        self.ids.inlayout.rows = self.ids.inlayout.default_rows + 1 + len(self.dices[self.ids.dice_model_spinner.text]["data"]["faces"])
+        self.ids.dice_name.text = self.ids.dice_model_spinner.text
+        self.ids.dice_color.text = self.dices[self.ids.dice_model_spinner.text]["data"]["color"]
         #create the faces
-        for i in range(0, len(dices[self.ids.dice_model_spinner.text]["data"]["faces"])):
+        for i in range(0, len(self.dices[self.ids.dice_model_spinner.text]["data"]["faces"])):
             labelid = "face" + str(i+1) +"label"
             labeltext = "Face "+str(i+1)
             nameid = "face" + str(i+1) +"name"
-            nametext = dices[self.ids.dice_model_spinner.text]["data"]["faces"][i]
+            nametext = self.dices[self.ids.dice_model_spinner.text]["data"]["faces"][i]
             facelabel = DiceLabel(id=labelid, text=labeltext)
             facename = DiceTextInput(id=nameid, text=nametext)
             self.faces.append((facelabel, facename))
