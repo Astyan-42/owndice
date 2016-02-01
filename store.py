@@ -5,7 +5,7 @@ class StoreException(Exception):
 
 def add_data(store, name, data):
     store = DictStore(store)
-    if not store.exists(name):
+    if not store.exists(name) and name != "default":
         store.put(name, data=data)
     else:
         raise StoreException("The dice exist")
@@ -14,6 +14,8 @@ def edit_data(store, name, data):
     store = DictStore(store)
     if store.exists(name):
         store.put(name, data=data)
+    elif name == "default": 
+        raise StoreException("Default can't be edit")
     else:
         raise StoreException("The dice don't exit")
     
@@ -21,6 +23,8 @@ def del_data(store, name):
     store = DictStore(store)
     if not store.exists(name):
         raise StoreException("The dice don't exist")
+    elif name == "default":
+        raise StoreException("Default can't be delete")
     else:
         store.delete(name)
 

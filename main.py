@@ -83,17 +83,41 @@ class DicesScreen(Screen):
             self.ids.inlayout.rows = self.ids.inlayout.default_rows + 1 + len(self.faces)
             self.ids.inlayout.height = self.ids.inlayout.nb_rows_height()
                 
-    
-    
+    def execute(self):
+        if self.ids.action.text == "Add":
+            self.new_dice()
+        elif self.ids.action.text == "Edit":
+            self.edit_dice()
+        elif self.ids.action.text == "Delete":
+            self.del_dice()
     
     def edit_dice(self):
-        pass
+        data = {"faces" : [], "color" : self.ids.dice_color.text}
+        for (facelabel, facename) in self.faces:
+            data["faces"].append(facename.text)
+        try:
+            store.edit_data("dices.pickle", self.ids.dice_name.text, data)
+        except store.StoreException:
+            print "except"
+            
     
     def new_dice(self):
-        pass
+        data = {"faces" : [], "color" : self.ids.dice_color.text}
+        for (facelabel, facename) in self.faces:
+            data["faces"].append(facename.text)
+        try:
+            store.add_data("dices.pickle", self.ids.dice_name.text, data)
+        except store.StoreException:
+            print "except"
+        dices = store.get_store("dices.pickle")
+        dicesnames = [ dicename for dicename in dices ]
+        self.ids.dice_model_spinner.values = dicesnames
         
     def del_dice(self):
-        pass
+        try:
+            store.del_data("dices.pickle", self.ids.dice_name.text)
+        except store.StoreException:
+            print "except"
         
     
 class DicesSetsScreen(Screen):

@@ -38,12 +38,10 @@
 				
 				
         DownMenuLayout:
+			cols: 2
             DiceButton:
-				text: "New"
-				on_press: root.new_dice()
-			DiceButton:
-				text: "Edit"
-				on_press: root.edit_dice()
+				text: "execute"
+				on_press: root.execute()
             DiceButton:
                 text: "Menu"
                 on_press: root.manager.current = 'menu'
