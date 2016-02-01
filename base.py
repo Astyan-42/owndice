@@ -55,7 +55,7 @@ class DiceLayout(GridLayout):
     """
     
     def nb_rows_height(self):
-        return 50 * self.rows
+        return 45 * self.rows
     
     def set_min_height(self):
         self.minimum_height = sp(350)

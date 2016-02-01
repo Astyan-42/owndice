@@ -60,10 +60,32 @@ class DicesScreen(Screen):
         self.ids.inlayout.height = self.ids.inlayout.nb_rows_height()
     
     def add_face(self, buttoninstance):
-        pass
-    
+        self.ids.inlayout.remove_widget(self.addface)
+        self.ids.inlayout.remove_widget(self.delface)
+        facenb = len(self.faces)
+        labelid = "face" + str(facenb+1) +"label"
+        labeltext = "Face "+ str(facenb+1)
+        nameid = "face" + str(facenb+1) +"name"
+        nametext = "Face "+ str(facenb+1)
+        facelabel = DiceLabel(id=labelid, text=labeltext)
+        facename = DiceTextInput(id=nameid, text=nametext)
+        self.ids.inlayout.add_widget(facelabel)
+        self.ids.inlayout.add_widget(facename)
+        self.faces.append((facelabel, facename))
+        self.ids.inlayout.rows = self.ids.inlayout.default_rows + 1 + len(self.faces)
+        self.ids.inlayout.add_widget(self.addface)
+        self.ids.inlayout.add_widget(self.delface)
+        self.ids.inlayout.height = self.ids.inlayout.nb_rows_height()
+        
     def del_face(self, buttoninstance):
-        pass
+        if len(self.faces) != 0:
+            (labelw, namew) = self.faces[-1]
+            self.ids.inlayout.remove_widget(labelw)
+            self.ids.inlayout.remove_widget(namew)
+            self.faces = self.faces[0:len(self.faces)-1]
+            self.ids.inlayout.rows = self.ids.inlayout.default_rows + 1 + len(self.faces)
+            self.ids.inlayout.height = self.ids.inlayout.nb_rows_height()
+                
     
     def edit_dice(self):
         pass
