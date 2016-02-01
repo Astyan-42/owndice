@@ -13,15 +13,21 @@ class DicesScreen(Screen):
     """ The creation of the dice """
     
     def on_pre_enter(self):
+        print "lol"
         dices = store.get_store("dices.pickle")
         dicesnames = [ dicename for dicename in dices ]
-        self.ids.dice_model_spinner.values = dicesnames
-        self.faces = []
-        face1label = DiceLabel(id="face1label", text="Face 1")
-        face1name = DiceTextInput(id="face1name", text="Face 1")
-        self.faces.append((face1label, face1name))
-        self.ids.inlayout.add_widget(face1label)
-        self.ids.inlayout.add_widget(face1name)
+        if self.ids.dice_model_spinner.text == "default":
+            self.ids.dice_model_spinner.values = dicesnames
+            self.faces = []
+            face1label = DiceLabel(id="face1label", text="Face 1")
+            face1name = DiceTextInput(id="face1name", text="Face 1")
+            self.faces.append((face1label, face1name))
+            self.ids.inlayout.add_widget(face1label)
+            self.ids.inlayout.add_widget(face1name)
+        else:
+            for w1, w2 in self.faces:
+                self.ids.inlayout.add_widget(w1)
+                self.ids.inlayout.add_widget(w2)
         self.addface = DiceButton(id="addface", text="Add Face", on_release=self.add_face)
         self.delface = DiceButton(id="delface", text="Del Face", on_release=self.del_face)
         self.ids.inlayout.add_widget(self.addface)
@@ -118,8 +124,18 @@ class DicesScreen(Screen):
             store.del_data("dices.pickle", self.ids.dice_name.text)
         except store.StoreException:
             print "except"
+        dices = store.get_store("dices.pickle")
+        dicesnames = [ dicename for dicename in dices ]
+        self.ids.dice_model_spinner.values = dicesnames
         
-    
+    def on_leave(self):
+        self.ids.inlayout.remove_widget(self.addface)
+        self.ids.inlayout.remove_widget(self.delface)
+        for w1, w2 in self.faces:
+            self.ids.inlayout.remove_widget(w1)
+            self.ids.inlayout.remove_widget(w2)
+
+        
 class DicesSetsScreen(Screen):
     """ The creation of a dice Set """
     pass
