@@ -14,7 +14,7 @@ class DicesScreen(Screen):
     
     def on_pre_enter(self):
         dices = store.get_store("dices.pickle")
-        dicesnames = ["default"] + [ dicename for dicename in dices ]
+        dicesnames = [ dicename for dicename in dices ]
         self.ids.dice_model_spinner.values = dicesnames
         self.faces = []
         face1label = DiceLabel(id="face1label", text="Face 1")
@@ -27,9 +27,6 @@ class DicesScreen(Screen):
         self.ids.inlayout.add_widget(self.addface)
         self.ids.inlayout.add_widget(self.delface)
         self.ids.inlayout.height = self.ids.inlayout.nb_rows_height()
-        
-        
-        #~ self.ids.dice_model_spinner.text = "default"
         
     def change_dice(self):
         dices = store.get_store("dices.pickle")
@@ -86,6 +83,8 @@ class DicesScreen(Screen):
             self.ids.inlayout.rows = self.ids.inlayout.default_rows + 1 + len(self.faces)
             self.ids.inlayout.height = self.ids.inlayout.nb_rows_height()
                 
+    
+    
     
     def edit_dice(self):
         pass
