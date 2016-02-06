@@ -1,6 +1,8 @@
 import kivy
 kivy.require('1.9.0')
 
+import sys
+
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
@@ -8,6 +10,21 @@ from kivy.uix.popup import Popup
 from base import *
 import store
 
+class DicePopup(Popup):
+    pass
+
+class ErrorPopup(DicePopup):
+    """ Popup to show in case of erreur """
+
+    def show_popup(self, texterror):
+        """ feel the popup with the error message present in data
+        @param data: dictionnary with the error type (should be 
+        always 1 for this kind of popup) and the error message
+        @type data: {str: int, str: str}
+        """
+        message = add_color(texterror, "FF0000")
+        self.ids.errormessage.text = message
+        self.open()
 
 class DicesScreen(Screen):
     """ The creation of the dice """
@@ -35,8 +52,7 @@ class DicesScreen(Screen):
         self.ids.inlayout.add_widget(face1name)
         self.ids.inlayout.add_widget(self.addface)
         self.ids.inlayout.add_widget(self.delface)
-        self.ids.inlayout.height = self.ids.inlayout.nb_rows_height()
-        
+        self.ids.inlayout.height = self.ids.inlayout.nb_rows_height()        
         
     def change_dice(self):
         dices = store.get_store("dices.pickle")
@@ -52,7 +68,6 @@ class DicesScreen(Screen):
             self.create_default()
         else:
             self.load_dice()
-    
     
     def load_dice(self): 
         self.ids.inlayout.rows = self.ids.inlayout.default_rows + 1 + len(self.dices[self.ids.dice_model_spinner.text]["data"]["faces"])
@@ -108,6 +123,11 @@ class DicesScreen(Screen):
         elif self.ids.action.text == "Delete":
             self.del_dice()
     
+    def create_error_popup(self):
+        t, v, tb = sys.exc_info()
+        self._popup = ErrorPopup()
+        self._popup.show_popup(str(v))
+        
     def edit_dice(self):
         data = {"faces" : [], "color" : self.ids.dice_color.text}
         for (facelabel, facename) in self.faces:
@@ -115,8 +135,7 @@ class DicesScreen(Screen):
         try:
             store.edit_data("dices.pickle", self.ids.dice_name.text, data)
         except store.StoreException:
-            print "except"
-            
+            self.create_error_popup()
     
     def new_dice(self):
         data = {"faces" : [], "color" : self.ids.dice_color.text}
@@ -125,7 +144,7 @@ class DicesScreen(Screen):
         try:
             store.add_data("dices.pickle", self.ids.dice_name.text, data)
         except store.StoreException:
-            print "except"
+            self.create_error_popup()
         dices = store.get_store("dices.pickle")
         dicesnames = [ dicename for dicename in dices ]
         self.ids.dice_model_spinner.values = dicesnames
@@ -134,7 +153,7 @@ class DicesScreen(Screen):
         try:
             store.del_data("dices.pickle", self.ids.dice_name.text)
         except store.StoreException:
-            print "except"
+            self.create_error_popup()
         dices = store.get_store("dices.pickle")
         dicesnames = [ dicename for dicename in dices ]
         self.ids.dice_model_spinner.values = dicesnames

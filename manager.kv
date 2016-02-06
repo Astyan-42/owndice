@@ -1,5 +1,27 @@
 #:kivy 1.9.0
 
+<DicePopup>:
+    title_size: "18sp"
+    title_align: "center"
+
+<ErrorPopup>:
+    id: popup
+    title: "Error"
+    title_color: [1, 0, 0, 1]
+    BoxLayout:
+        orientation: 'vertical'
+        ScrollViewSpe:
+            TopPopupLayout:
+                cols: 1
+                rows: 1
+                AboutLabel:
+                    id: errormessage
+        DownMenuLayout:
+			cols: 1
+            CloseButton:
+                on_press: popup.dismiss()
+
+
 <DicesScreen>:
     fullscreen: True
     BoxLayout:

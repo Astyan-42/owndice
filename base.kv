@@ -1,6 +1,12 @@
 #:kivy 1.9.0
 #:import Factory kivy.factory.Factory
 
+<AboutLabel@Label>:
+    font_size: '15sp'
+    size_hint_y: None
+    text_size: self.width, None
+    height: self.texture_size[1]
+    markup: True
 
 <DiceButton>:
     font_size: '15sp'
@@ -59,8 +65,8 @@
     size_hint_y: None
     size_hint_x: None
     spacing: 40
-    minimum_height: '350sp'
-    minimum_width: '350sp'
+    minimum_height: '100sp'
+    minimum_width: '200sp'
     cols: 2
 
 <DiceFixedLayout@DiceLayout>:
@@ -83,3 +89,9 @@
 
 <DownMenuLayout@DiceFixedLayout>:
     cols: 3
+
+<CloseButton@Button>:
+    font_size: '15sp'
+    height: '30sp'
+    text: 'Close'
+    on_press: root.on_press

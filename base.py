@@ -19,6 +19,8 @@ from kivy.metrics import sp
 from kivy.lang import Builder
 Builder.load_file('base.kv')
 
+def add_color(text, color):
+    return "[color="+color+"]"+text+"[/color]" 
 
 class DiceButton(Button):
     pass
