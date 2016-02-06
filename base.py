@@ -102,6 +102,6 @@ class TopPopupLayout(DiceLayout):
         self.minimum_height = sp(40) * self.rows + sp(20)
 
     def set_min_width(self):
-        self.minimum_width = sp(290)
+        self.minimum_width = sp(200)
 
 
