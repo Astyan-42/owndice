@@ -146,7 +146,7 @@ class DicesScreen(Screen):
         except store.StoreException:
             self.create_error_popup()
         dices = store.get_store("dices.pickle")
-        dicesnames = [ dicename for dicename in dices ]
+        dicesnames = [ dicename for dicename in dices ] + ["default"]
         self.ids.dice_model_spinner.values = dicesnames
         
     def del_dice(self):
@@ -155,7 +155,7 @@ class DicesScreen(Screen):
         except store.StoreException:
             self.create_error_popup()
         dices = store.get_store("dices.pickle")
-        dicesnames = [ dicename for dicename in dices ]
+        dicesnames = [ dicename for dicename in dices ] + ["default"]
         self.ids.dice_model_spinner.values = dicesnames
         
     def on_leave(self):
@@ -203,15 +203,55 @@ class DicesSetsScreen(Screen):
     def load_diceset(self):
         pass
     
-    def execute(self):
-        pass
-    
     def add_dice(self):
         pass
     
     def del_dice(self):
         pass
+        
+    def execute(self):
+        if self.ids.action.text == "Add":
+            self.new_diceset()
+        elif self.ids.action.text == "Edit":
+            self.edit_diceset()
+        elif self.ids.action.text == "Delete":
+            self.del_diceset()
     
+    def create_error_popup(self):
+        t, v, tb = sys.exc_info()
+        self._popup = ErrorPopup()
+        self._popup.show_popup(str(v))
+    
+    def new_diceset(self):
+        data = {"dices" : []}
+        for (dicelabel, dicename) in self.dices:
+            data["dices"].append(dicename.text)
+        try:
+            store.add_data("dicessets.pickle", self.ids.diceset_name.text, data)
+        except store.StoreException:
+            self.create_error_popup()
+        dicessets = store.get_store("dicessets.pickle")
+        dicessetsnames = [ dicesetname for dicesetname in dicessets ] + ["default"]
+        self.ids.diceset_model_spinner.values = dicesetssnames
+        
+    def edit_dicesets(self):
+        data = {"dices" : []}
+        for (dicelabel, dicename) in self.dices:
+            data["dices"].append(dicename.text)
+        try:
+            store.del_data("dicessets.pickle", self.ids.diceset_name.text, data)
+        except store.StoreException:
+            self.create_error_popup()
+    
+    def del_dicesets(self):
+        try:
+            store.del_data("dicessets.pickle", self.ids.diceset_name.text)
+        except store.StoreException:
+            self.create_error_popup()
+        dicessets = store.get_store("dicessets.pickle")
+        dicessetsnames = [ dicesetname for dicesetname in dicessets ] + ["default"]
+        self.ids.dice_model_spinner.values = dicesnames
+        
     def on_leave(self):
         self.ids.inlayout.remove_widget(self.adddice)
         self.ids.inlayout.remove_widget(self.deldice)
