@@ -53,14 +53,14 @@
 					id: action
 					text: "Add"
 					values: ["Add", "Edit", "Delete"]
-	DownMenuLayout:
-		cols: 2
-        DiceButton:
-			text: "execute"
-			on_press: root.execute()
-        DiceButton:
-			text: "Menu"
-            on_press: root.manager.current = 'menu'
+		DownMenuLayout:
+			cols: 2
+			DiceButton:
+				text: "execute"
+				on_press: root.execute()
+			DiceButton:
+				text: "Menu"
+				on_press: root.manager.current = 'menu'
 					
 <DicesScreen>:
     fullscreen: True
