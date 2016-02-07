@@ -210,12 +210,15 @@ class DicesSetsScreen(Screen):
         pass
         
     def execute(self):
-        if self.ids.action.text == "Add":
-            self.new_diceset()
-        elif self.ids.action.text == "Edit":
-            self.edit_diceset()
-        elif self.ids.action.text == "Delete":
-            self.del_diceset()
+        try:
+            if self.ids.action.text == "Add":
+                self.new_diceset()
+            elif self.ids.action.text == "Edit":
+                self.edit_diceset()
+            elif self.ids.action.text == "Delete":
+                self.del_diceset()
+        except store.StoreException:
+            self.create_error_popup()
     
     def create_error_popup(self):
         t, v, tb = sys.exc_info()
@@ -226,18 +229,22 @@ class DicesSetsScreen(Screen):
         data = {"dices" : []}
         for (dicelabel, dicename) in self.dices:
             data["dices"].append(dicename.text)
+            if dicename.text == "default":
+                raise store.StoreException("Cannot use default dice in a diceset")
         try:
             store.add_data("dicessets.pickle", self.ids.diceset_name.text, data)
         except store.StoreException:
             self.create_error_popup()
         dicessets = store.get_store("dicessets.pickle")
         dicessetsnames = [ dicesetname for dicesetname in dicessets ] + ["default"]
-        self.ids.diceset_model_spinner.values = dicesetssnames
+        self.ids.diceset_model_spinner.values = dicessetsnames
         
     def edit_diceset(self):
         data = {"dices" : []}
         for (dicelabel, dicename) in self.dices:
             data["dices"].append(dicename.text)
+            if dicename.text == "default":
+                raise store.StoreException("Cannot use default dice in a diceset")
         try:
             store.del_data("dicessets.pickle", self.ids.diceset_name.text, data)
         except store.StoreException:
@@ -258,25 +265,6 @@ class DicesSetsScreen(Screen):
         for w1, w2 in self.dices:
             self.ids.inlayout.remove_widget(w1)
             self.ids.inlayout.remove_widget(w2)
-    
-    #~ def load_dice(self): 
-        #~ self.ids.inlayout.rows = self.ids.inlayout.default_rows + 1 + len(self.dices[self.ids.dice_model_spinner.text]["data"]["faces"])
-        #~ self.ids.dice_name.text = self.ids.dice_model_spinner.text
-        #~ self.ids.dice_color.text = self.dices[self.ids.dice_model_spinner.text]["data"]["color"]
-        #~ #create the faces
-        #~ for i in range(0, len(self.dices[self.ids.dice_model_spinner.text]["data"]["faces"])):
-            #~ labelid = "face" + str(i+1) +"label"
-            #~ labeltext = "Face "+str(i+1)
-            #~ nameid = "face" + str(i+1) +"name"
-            #~ nametext = self.dices[self.ids.dice_model_spinner.text]["data"]["faces"][i]
-            #~ facelabel = DiceLabel(id=labelid, text=labeltext)
-            #~ facename = DiceTextInput(id=nameid, text=nametext)
-            #~ self.faces.append((facelabel, facename))
-            #~ self.ids.inlayout.add_widget(facelabel)
-            #~ self.ids.inlayout.add_widget(facename)
-        #~ self.ids.inlayout.add_widget(self.addface)
-        #~ self.ids.inlayout.add_widget(self.delface)
-        #~ self.ids.inlayout.height = self.ids.inlayout.nb_rows_height()
 
 class PlayDiceSet(Screen):
     """ Play a dice set"""
