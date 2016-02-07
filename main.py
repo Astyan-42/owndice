@@ -174,10 +174,10 @@ class DicesSetsScreen(Screen):
         self.dicesnames = [ dicename for dicename in dices ] + ["default"]
         self.dicessets = store.get_store("dicessets.pickle")
         dicessetsnames = [ dicesetname for dicesetname in self.dicessets ] + ["default"]
-        self.ids.dice_model_spinner.values = dicessetsnames
+        self.ids.diceset_model_spinner.values = dicessetsnames
         self.adddice = DiceButton(id="adddice", text="Add Dice", on_release=self.add_dice)
         self.deldice = DiceButton(id="deldice", text="Del Dice", on_release=self.del_dice)
-        if self.ids.dice_model_spinner.text == "default":
+        if self.ids.diceset_model_spinner.text == "default":
             self.create_default()
         else:
             self.load_diceset()
@@ -234,7 +234,7 @@ class DicesSetsScreen(Screen):
         dicessetsnames = [ dicesetname for dicesetname in dicessets ] + ["default"]
         self.ids.diceset_model_spinner.values = dicesetssnames
         
-    def edit_dicesets(self):
+    def edit_diceset(self):
         data = {"dices" : []}
         for (dicelabel, dicename) in self.dices:
             data["dices"].append(dicename.text)
@@ -243,7 +243,7 @@ class DicesSetsScreen(Screen):
         except store.StoreException:
             self.create_error_popup()
     
-    def del_dicesets(self):
+    def del_diceset(self):
         try:
             store.del_data("dicessets.pickle", self.ids.diceset_name.text)
         except store.StoreException:
