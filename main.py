@@ -203,11 +203,33 @@ class DicesSetsScreen(Screen):
     def load_diceset(self):
         pass
     
-    def add_dice(self):
-        pass
+    def add_dice(self, buttoninstance):
+        self.ids.inlayout.remove_widget(self.adddice)
+        self.ids.inlayout.remove_widget(self.deldice)
+        dicenb = len(self.dices)
+        diceid = "dice" + str(dicenb+1) +"label"
+        labeltext = "Dice "+ str(dicenb+1)
+        listid = "dice" + str(dicenb+1) +"name"
+        listdice = self.dicesnames
+        listtext = "default"
+        dicelabel = DiceLabel(id=diceid, text=labeltext)
+        dicename = DiceSpinner(id=listid, text=listtext, values=listdice)
+        self.ids.inlayout.add_widget(dicelabel)
+        self.ids.inlayout.add_widget(dicename)
+        self.dices.append((dicelabel, dicename))
+        self.ids.inlayout.rows = self.ids.inlayout.default_rows + 1 + len(self.dices)
+        self.ids.inlayout.add_widget(self.adddice)
+        self.ids.inlayout.add_widget(self.deldice)
+        self.ids.inlayout.height = self.ids.inlayout.nb_rows_height()
     
-    def del_dice(self):
-        pass
+    def del_dice(self, buttoninstance):
+        if len(self.dices) != 0:
+            (labelw, namew) = self.dices[-1]
+            self.ids.inlayout.remove_widget(labelw)
+            self.ids.inlayout.remove_widget(namew)
+            self.dices = self.dices[0:len(self.dices)-1]
+            self.ids.inlayout.rows = self.ids.inlayout.default_rows + 1 + len(self.dices)
+            self.ids.inlayout.height = self.ids.inlayout.nb_rows_height()
         
     def execute(self):
         try:
@@ -227,6 +249,8 @@ class DicesSetsScreen(Screen):
     
     def new_diceset(self):
         data = {"dices" : []}
+        if len(self.dices) == 0:
+            raise store.StoreException("Cannot create an empty diceset")
         for (dicelabel, dicename) in self.dices:
             data["dices"].append(dicename.text)
             if dicename.text == "default":
@@ -241,6 +265,8 @@ class DicesSetsScreen(Screen):
         
     def edit_diceset(self):
         data = {"dices" : []}
+        if len(self.dices) == 0:
+            raise store.StoreException("Cannot save an empty diceset")
         for (dicelabel, dicename) in self.dices:
             data["dices"].append(dicename.text)
             if dicename.text == "default":
