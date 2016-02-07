@@ -24,6 +24,44 @@
                 on_press: popup.dismiss()
 
 
+<DicesSetsScreen>:
+    fullscreen: True
+    BoxLayout:
+        orientation: 'vertical'
+        TopTitleLayout:
+            DiceLabelTitle:
+                text: "[color=ff3333]Dices[/color]"
+        ScrollViewSpe:
+            TopScreenLayout:
+				id: inlayout
+				default_rows: 3
+                rows: 5
+                DiceLabel:
+                    text: "DiceSet Model"
+                DiceSpinner:
+					id: dice_model_spinner
+					text: "default"
+					on_text: root.change_diceset()
+				DiceLabel:
+					text: "DiceSet Name"
+				DiceTextInput:
+					id: diceset_name
+					text: "default"
+				DiceLabel:
+					text: "Action"
+				DiceSpinner:
+					id: action
+					text: "Add"
+					values: ["Add", "Edit", "Delete"]
+	DownMenuLayout:
+		cols: 2
+        DiceButton:
+			text: "execute"
+			on_press: root.execute()
+        DiceButton:
+			text: "Menu"
+            on_press: root.manager.current = 'menu'
+					
 <DicesScreen>:
     fullscreen: True
     BoxLayout:
@@ -34,7 +72,7 @@
         ScrollViewSpe:
             TopScreenLayout:
 				id: inlayout
-				default_rows: 5
+				default_rows: 4
                 rows: 6
                 DiceLabel:
                     text: "Dice Model"
@@ -58,9 +96,6 @@
 					id: action
 					text: "Add"
 					values: ["Add", "Edit", "Delete"]
-				
-				
-				
         DownMenuLayout:
 			cols: 2
             DiceButton:
