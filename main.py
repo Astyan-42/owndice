@@ -205,15 +205,30 @@ class DicesSetsScreen(Screen):
         for dlabel, dname in self.dices:
             self.ids.inlayout.remove_widget(dlabel)
             self.ids.inlayout.remove_widget(dname)
-        self.faces = []
+        self.dices = []
         #set the number of rows
-        if self.ids.dice_model_spinner.text == "default":
+        if self.ids.diceset_model_spinner.text == "default":
             self.create_default()
         else:
             self.load_diceset()
     
     def load_diceset(self):
-        pass
+        self.ids.inlayout.rows = self.ids.inlayout.default_rows + 1 + len(self.dicessets[self.ids.diceset_model_spinner.text]["data"]["dices"])
+        self.ids.diceset_name.text = self.ids.diceset_model_spinner.text
+        #create the faces
+        for i in range(0, len(self.dicessets[self.ids.diceset_model_spinner.text]["data"]["dices"])):
+            labelid = "dice" + str(i+1) +"label"
+            labeltext = "Dice "+str(i+1)
+            nameid = "dice" + str(i+1) +"name"
+            nametext = self.dicessets[self.ids.diceset_model_spinner.text]["data"]["dices"][i]
+            dicelabel = DiceLabel(id=labelid, text=labeltext)
+            dicename = DiceTextInput(id=nameid, text=nametext)
+            self.dices.append((dicelabel, dicename))
+            self.ids.inlayout.add_widget(dicelabel)
+            self.ids.inlayout.add_widget(dicename)
+        self.ids.inlayout.add_widget(self.adddice)
+        self.ids.inlayout.add_widget(self.deldice)
+        self.ids.inlayout.height = self.ids.inlayout.nb_rows_height()
     
     def add_dice(self, buttoninstance):
         self.ids.inlayout.remove_widget(self.adddice)
