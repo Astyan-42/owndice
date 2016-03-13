@@ -198,7 +198,19 @@ class DicesSetsScreen(Screen):
         self.ids.inlayout.height = self.ids.inlayout.nb_rows_height() 
     
     def change_diceset(self):
-        pass
+        dices = store.get_store("dicessets.pickle")
+        #delete everything that belong to the other dice
+        self.ids.inlayout.remove_widget(self.adddice)
+        self.ids.inlayout.remove_widget(self.deldice)
+        for dlabel, dname in self.dices:
+            self.ids.inlayout.remove_widget(dlabel)
+            self.ids.inlayout.remove_widget(dname)
+        self.faces = []
+        #set the number of rows
+        if self.ids.dice_model_spinner.text == "default":
+            self.create_default()
+        else:
+            self.load_diceset()
     
     def load_diceset(self):
         pass
