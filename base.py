@@ -41,7 +41,7 @@ class ScrollViewSpe(ScrollView):
     def change_child_height(self, height_par):
         for child in self.children:
             #need to be move to update
-            child.change_height(sp(child.rows*50))
+            child.change_height(height_par)
         return height_par
 
     def change_child_width(self, wid):
@@ -73,7 +73,7 @@ class DiceLayout(GridLayout):
         if height_par > self.minimum_height:
             self.height = height_par
         else:
-            self.height = self.minimum_height
+            self.height = self.nb_rows_height()
     
     def change_width(self, wid):
         #~ reset because of a bug in kivy

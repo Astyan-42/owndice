@@ -137,6 +137,7 @@ class DicesScreen(Screen):
             store.edit_data("dices.pickle", self.ids.dice_name.text, data)
         except store.StoreException:
             self.create_error_popup()
+        self.dices = store.get_store("dices.pickle")
     
     def new_dice(self):
         data = {"faces" : [], "color" : self.ids.dice_color.text}
@@ -146,8 +147,8 @@ class DicesScreen(Screen):
             store.add_data("dices.pickle", self.ids.dice_name.text, data)
         except store.StoreException:
             self.create_error_popup()
-        dices = store.get_store("dices.pickle")
-        dicesnames = [ dicename for dicename in dices ] + ["default"]
+        self.dices = store.get_store("dices.pickle")
+        dicesnames = [ dicename for dicename in self.dices ] + ["default"]
         self.ids.dice_model_spinner.values = dicesnames
         
     def del_dice(self):
@@ -155,8 +156,8 @@ class DicesScreen(Screen):
             store.del_data("dices.pickle", self.ids.dice_name.text)
         except store.StoreException:
             self.create_error_popup()
-        dices = store.get_store("dices.pickle")
-        dicesnames = [ dicename for dicename in dices ] + ["default"]
+        self.dices = store.get_store("dices.pickle")
+        dicesnames = [ dicename for dicename in self.dices ] + ["default"]
         self.ids.dice_model_spinner.values = dicesnames
         
     def on_leave(self):
@@ -223,7 +224,7 @@ class DicesSetsScreen(Screen):
             nameid = "dice" + str(i+1) +"name"
             nametext = self.dicessets[self.ids.diceset_model_spinner.text]["data"]["dices"][i]
             dicelabel = DiceLabel(id=labelid, text=labeltext)
-            dicename = DiceTextInput(id=nameid, text=nametext)
+            dicename = DiceSpinner(id=nameid, text=nametext, values=self.dicesnames)
             self.dices.append((dicelabel, dicename))
             self.ids.inlayout.add_widget(dicelabel)
             self.ids.inlayout.add_widget(dicename)
@@ -287,8 +288,8 @@ class DicesSetsScreen(Screen):
             store.add_data("dicessets.pickle", self.ids.diceset_name.text, data)
         except store.StoreException:
             self.create_error_popup()
-        dicessets = store.get_store("dicessets.pickle")
-        dicessetsnames = [ dicesetname for dicesetname in dicessets ] + ["default"]
+        self.dicessets = store.get_store("dicessets.pickle")
+        dicessetsnames = [ dicesetname for dicesetname in self.dicessets ] + ["default"]
         self.ids.diceset_model_spinner.values = dicessetsnames
         
     def edit_diceset(self):
@@ -300,17 +301,18 @@ class DicesSetsScreen(Screen):
             if dicename.text == "default":
                 raise store.StoreException("Cannot use default dice in a diceset")
         try:
-            store.del_data("dicessets.pickle", self.ids.diceset_name.text, data)
+            store.edit_data("dicessets.pickle", self.ids.diceset_name.text, data)
         except store.StoreException:
             self.create_error_popup()
+        self.dicessets = store.get_store("dicessets.pickle")
     
     def del_diceset(self):
         try:
             store.del_data("dicessets.pickle", self.ids.diceset_name.text)
         except store.StoreException:
             self.create_error_popup()
-        dicessets = store.get_store("dicessets.pickle")
-        dicessetsnames = [ dicesetname for dicesetname in dicessets ] + ["default"]
+        self.dicessets = store.get_store("dicessets.pickle")
+        dicessetsnames = [ dicesetname for dicesetname in self.dicessets ] + ["default"]
         self.ids.dice_model_spinner.values = dicesnames
         
     def on_leave(self):
