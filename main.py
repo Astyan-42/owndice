@@ -321,7 +321,15 @@ class DicesSetsScreen(Screen):
 
 class PlayDiceSet(Screen):
     """ Play a dice set"""
-    pass
+    
+    def on_pre_enter(self):
+        """ """
+        self.dicessets = store.get_store("dicessets.pickle")
+        dicessetsnames = [ dicesetname for dicesetname in self.dicessets ]
+        self.ids.diceset_spinner.values = dicessetsnames
+    
+    def roll(self):
+        pass
 
 class DicesSetResultPopup(Popup):
     """ show a DiceSetResult """

@@ -30,7 +30,7 @@
         orientation: 'vertical'
         TopTitleLayout:
             DiceLabelTitle:
-                text: "[color=ff3333]Dices[/color]"
+                text: "[color=ff3333]Dice Sets[/color]"
         ScrollViewSpe:
             TopScreenLayout:
 				id: inlayout
@@ -56,7 +56,7 @@
 		DownMenuLayout:
 			cols: 2
 			DiceButton:
-				text: "execute"
+				text: "Execute"
 				on_press: root.execute()
 			DiceButton:
 				text: "Menu"
@@ -99,12 +99,40 @@
         DownMenuLayout:
 			cols: 2
             DiceButton:
-				text: "execute"
+				text: "Execute"
 				on_press: root.execute()
             DiceButton:
                 text: "Menu"
                 on_press: root.manager.current = 'menu'
         
+<PlayDiceSet>
+	fullscreen: True
+    BoxLayout:
+        orientation: 'vertical'
+        TopTitleLayout:
+            DiceLabelTitle:
+                text: "[color=ff3333]Play[/color]"
+        ScrollViewSpe:
+            TopScreenLayout:
+				id: inlayout
+				default_rows: 1
+                rows: 1
+                DiceLabel:
+                    text: "Dice Set"
+                DiceSpinner:
+					id: diceset_spinner
+					text: "default"
+        DownMenuLayout:
+			cols: 2
+            DiceButton:
+				text: "Roll"
+				on_press: root.roll()
+			DiceButton:
+                text: "Menu"
+                on_press: root.manager.current = 'menu'
+
+
+
 
 <MenuScreen>:
     BoxLayout:
