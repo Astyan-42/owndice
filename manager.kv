@@ -131,7 +131,22 @@
                 text: "Menu"
                 on_press: root.manager.current = 'menu'
 
-
+<DicesSetResultPopup>:
+    id: popup
+    title: "Error"
+    size_hint_x: 0.95
+    size_hint_y: 0.95
+    BoxLayout:
+        orientation: 'vertical'
+        ScrollViewSpe:
+            TopPopupLayout:
+				id: inlayout
+                cols: 1
+                rows: 0       
+        DownMenuLayout:
+			cols: 1
+            CloseButton:
+                on_press: popup.dismiss()
 
 
 <MenuScreen>:

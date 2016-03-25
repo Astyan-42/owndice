@@ -2,6 +2,7 @@ import kivy
 kivy.require('1.9.0')
 
 import sys
+import random
 
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -329,11 +330,32 @@ class PlayDiceSet(Screen):
         self.ids.diceset_spinner.values = dicessetsnames
     
     def roll(self):
-        pass
+        if self.ids.diceset_spinner.text != "default":
+            self._popup = DicesSetResultPopup()
+            self._popup.show_popup(self.ids.diceset_spinner.text)
+        else:
+            self._popup = ErrorPopup()
+            self._popup.show_popup("Cannot roll the default dice")
 
 class DicesSetResultPopup(Popup):
     """ show a DiceSetResult """
-    pass 
+    
+    def show_popup(self, diceset):
+        self.title = diceset+" Result"
+        dices = store.get_store("dices.pickle")
+        dicesets = store.get_store("dicessets.pickle")
+        ldices = dicesets.get(diceset)["data"]["dices"]
+        self.ids.inlayout.rows = len(ldices)
+        for dice in ldices:
+            dice = dices.get(dice)["data"]
+            color = dice["color"]
+            faces = dice["faces"]
+            face = random.choice(faces)
+            res = add_color(face, color)
+            facelabel = DiceLabel(text=res)
+            self.ids.inlayout.add_widget(facelabel)
+        self.open()
+         
     
 class MenuScreen(Screen):
     """ the menu screen"""
