@@ -37,12 +37,6 @@ class DiceSpinner(Spinner):
 class ScrollViewSpe(ScrollView):
     """ Special class made to give it's own value at his layout child
     See the kv file for an exemple of use """
-    
-    def change_child_height(self, height_par):
-        for child in self.children:
-            #need to be move to update
-            child.change_height(height_par)
-        return height_par
 
     def change_child_width(self, wid):
         for child in self.children:
@@ -57,23 +51,10 @@ class DiceLayout(GridLayout):
     """
     
     def nb_rows_height(self):
-        return 45 * self.rows
-    
-    def set_min_height(self):
-        self.minimum_height = sp(350)
+        return 50 * self.rows + 10
     
     def set_min_width(self):
         self.minimum_width = sp(350)
-    
-    def change_height(self, height_par):
-        #~ reset because of a bug in kivy
-        #~ need to depend of the number of row 
-        self.set_min_height()
-        
-        if height_par > self.minimum_height:
-            self.height = height_par
-        else:
-            self.height = self.nb_rows_height()
     
     def change_width(self, wid):
         #~ reset because of a bug in kivy
@@ -90,7 +71,7 @@ class TopScreenLayout(DiceLayout):
     of the scrollviewspe parrent."""
     
     def set_min_height(self):
-        self.minimum_height = sp(40) * self.rows + sp(20)
+        self.minimum_height = sp(50) * self.rows + sp(10)
         
     def set_min_width(self):
         self.minimum_width = sp(290)
