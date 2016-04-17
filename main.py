@@ -11,6 +11,9 @@ from kivy.uix.popup import Popup
 from base import *
 import store
 
+#keyboard is handle
+Window.softinput_mode = "below_target"
+
 class DicePopup(Popup):
     pass
 
@@ -390,6 +393,19 @@ class ManagerApp(App):
             self.sm.current = "menu"
             return True
         return False
+        
+    def on_pause(self):
+        """on mobile device, when the device goes on sleep save the 
+        screen we was on"""
+        store = get_store.get_store("saving")
+        store.put("pause", value=self.sm.current)
+        return True
+
+    def on_resume(self):
+        """when the app is recall from sleep get the screen we was on
+        and set it """
+        store = get_store.get_store("saving")
+        self.sm.current = str(store.get('pause')["value"])
 
 if __name__ == '__main__':
     ManagerApp().run()
